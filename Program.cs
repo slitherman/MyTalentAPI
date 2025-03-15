@@ -1,6 +1,7 @@
 using MyTalentAPI.Interfaces;
 using MyTalentAPI.Repositories;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,12 @@ builder.Services.AddSwaggerGen(options =>
 
     });
 
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+
 });
+
 builder.Services.AddSingleton<ITalents, MyTalentRepo>();
 var app = builder.Build();
 
@@ -27,7 +33,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "MyTalent API v1");
+        options.DocumentTitle = "MyTalent API Documentation";
+    });
 }
 
 app.UseHttpsRedirection();

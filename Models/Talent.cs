@@ -1,5 +1,6 @@
 ﻿namespace MyTalentAPI.Models
 {
+   
     public class Talent
     {   //uuid
         public string TalentID { get; set; }
@@ -31,7 +32,7 @@
 
         public string GetFormattedPhoneNumber()
         {
-            return $"{CountryCode}{Phone}";
+            return $"+{CountryCode}{Phone}";
         }
     }
 }

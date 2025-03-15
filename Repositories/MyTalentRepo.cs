@@ -19,7 +19,7 @@ namespace MyTalentAPI.Repositories
             _talents = new List<Talent>
         {
             new Talent(Guid.NewGuid().ToString(), "Drinking water", "Is able to drink an absurd amount of water",
-                "Im so thirsty", "upvsuv+9w18bvto2iblw@sharklasers.com", "45", "31500309",  "Denmark", "https://github.com/slitherman", "https://www.linkedin.com/in/faisal-abdi-2a44891b6/"),
+                "Im so thirsty", "faisalerdum@gmail.com", "45", "31500309",  "Denmark", "https://github.com/slitherman", "https://www.linkedin.com/in/faisal-abdi-2a44891b6/"),
             new Talent(Guid.NewGuid().ToString(), "Eating", "Once ate over 4000 calories worth of food in one sitting", "Feed me" ,"upzkzo+80zbkvultfiu4@sharklasers.com","61", "12345678","Australia" ),
             new Talent(Guid.NewGuid().ToString(), "Rock Paper Scissors", "Has somehow never lost a game of rock paper scissors in their life", "Lets play","upzi6t+a4gfajut0ot4w@sharklasers.com","45","2244668", "Denmark" ),
             new Talent(Guid.NewGuid().ToString(), "Sleeping", "Regularly gets more than 10 hours of rest a day", "ZZZ" ,"ltjovlkx@sharklasers.com","34", "29340001","Spain" ),
@@ -66,22 +66,22 @@ namespace MyTalentAPI.Repositories
         }
         public IReadOnlyList<DocumentDTO> GetDocumentsFromTalent(string talentId)
         {
-            if (Documents.Count > 0 & talentId != null)
+            if (Documents.Count > 0 && talentId != null)
             {
                 var filteredDocuments = Documents.Where(x => x.TalentID == talentId && talentId != null).ToList();
                 return ManualMapper.MapDocumentsToDTOs(filteredDocuments);
             }
-            throw new ArgumentException("No talent document could be found");
+            throw new ArgumentNullException("No talent document could be found");
         }
 
         public DocumentDTO GetDocumentFromTalent(string talentId, string documentId)
         {
-            if (Documents.Count > 0 & documentId != null)
+            if (Documents.Count > 0 && documentId != null && talentId != null)
             {
                 var foundDocument =  Documents.FirstOrDefault(x => x.TalentID == talentId && x.DocumentID == documentId);
                 return ManualMapper.MapDocumentToDTO(foundDocument);
             }
-            throw new ArgumentException("No talent document could be found");
+            throw new ArgumentNullException("No talent document could be found");
         }
         //helper function
         public int ListLinker()

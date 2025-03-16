@@ -203,7 +203,7 @@ namespace MyTalentAPI.Controllers
                 var result = _talents.GetDocumentFromTalent(talentID, documentID);
                 return Ok(result);
             }
-            catch (ArgumentException ex)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound($"{new { message = ex.Message }}");
             }

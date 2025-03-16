@@ -30,16 +30,21 @@ builder.Services.AddSingleton<ITalents, MyTalentRepo>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI(options =>
+//    {
+//        options.SwaggerEndpoint("/swagger/v1/swagger.json", "MyTalent API v1");
+//        options.DocumentTitle = "MyTalent API Documentation";
+//    });
+//}
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "MyTalent API v1");
-        options.DocumentTitle = "MyTalent API Documentation";
-    });
-}
-
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "MyTalent API v1");
+    options.DocumentTitle = "MyTalent API Documentation";
+});
 
 app.UseHttpsRedirection();
 

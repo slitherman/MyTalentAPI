@@ -86,7 +86,7 @@ namespace MyTalentAPI.Repositories
             {
                 throw new KeyNotFoundException($"No document with the documentID {documentID} for talent with the talentID {talentID} could be found");
             }
-          
+  
             return ManualMapper.MapDocumentToDTO(foundDocument);
         }
         //helper function

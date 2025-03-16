@@ -53,35 +53,41 @@ namespace MyTalentAPI.Repositories
             {
               return ManualMapper.MapTalentsToDTOs(Talents);
             }
-            throw new ArgumentException("No talents could be found.");
+            throw new ArgumentNullException("No talents could be found.");
         }
-        public TalentDTO GetTalentById(string talentId)
+        public TalentDTO GetTalentById(string talentID)
         {
-            var talent = Talents.FirstOrDefault(x => x.TalentID == talentId);
+            var talent = Talents.FirstOrDefault(x => x.TalentID == talentID);
             if (talent == null)
             {
-                throw new ArgumentNullException("No talent could be found.");
+                throw new KeyNotFoundException($"No talent with the talentID {talentID} could be found.");
             }
            return ManualMapper.MapTalentToDTO(talent);
         }
-        public IReadOnlyList<DocumentDTO> GetDocumentsFromTalent(string talentId)
+        public IReadOnlyList<DocumentDTO> GetDocumentsFromTalent(string talentID)
         {
-            if (Documents.Count > 0 && talentId != null)
+  
+            if (string.IsNullOrEmpty(talentID))
             {
-                var filteredDocuments = Documents.Where(x => x.TalentID == talentId && talentId != null).ToList();
-                return ManualMapper.MapDocumentsToDTOs(filteredDocuments);
+                throw new ArgumentNullException($"No talent document with the talentID {talentID} could be found");
             }
-            throw new ArgumentNullException("No talent document could be found");
+            var filteredDocuments = Documents.Where(x => x.TalentID == talentID && talentID != null).ToList();
+            if (!filteredDocuments.Any()) {
+
+                throw new KeyNotFoundException($"No documents found for the talent ID: {talentID}");
+            }
+            return ManualMapper.MapDocumentsToDTOs(filteredDocuments);
         }
 
-        public DocumentDTO GetDocumentFromTalent(string talentId, string documentId)
+        public DocumentDTO GetDocumentFromTalent(string talentID, string documentID)
         {
-            if (Documents.Count > 0 && documentId != null && talentId != null)
+            var foundDocument = Documents.FirstOrDefault(x => x.TalentID == talentID && x.DocumentID == documentID);
+            if (foundDocument == null)
             {
-                var foundDocument =  Documents.FirstOrDefault(x => x.TalentID == talentId && x.DocumentID == documentId);
-                return ManualMapper.MapDocumentToDTO(foundDocument);
+                throw new KeyNotFoundException($"No document with the documentID {documentID} for talent with the talentID {talentID} could be found");
             }
-            throw new ArgumentNullException("No talent document could be found");
+          
+            return ManualMapper.MapDocumentToDTO(foundDocument);
         }
         //helper function
         public int ListLinker()

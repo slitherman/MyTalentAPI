@@ -52,12 +52,24 @@ namespace MyTalentAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<IReadOnlyList<TalentDTO>> GetTalents()
         {
-            var result = _talents.GetTalents();
-            if (result == null || result.Count <= 0)
+            try {
+                var result = _talents.GetTalents();
+                return Ok(result);
+            }
+            catch (ArgumentNullException) {
+            
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, $"An unknown error {new { message = ex.Message}} has occurred");
+            }
+       
+    
             {
                 return NoContent();
             }
-            return Ok(result);
+   
         }
 
 
@@ -92,13 +104,21 @@ namespace MyTalentAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<TalentDTO> GetTalentById(string talentID) {
-
-            var result = _talents.GetTalentById(talentID);
-            if (result == null)
-            {
-                return NotFound();
+            try {
+                var result = _talents.GetTalentById(talentID);
+                return Ok(result);
             }
-            return Ok(result);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound($"{new { message = ex.Message }}");
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(500, $"An unknown error error {new { message = ex.Message}} has occurred");
+            }
+
+            
+           
         }
 
         /// <summary>
@@ -136,12 +156,19 @@ namespace MyTalentAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<IReadOnlyList<DocumentDTO>> GetDocumentsFromTalent(string talentID)
         {
-            var result = _talents.GetDocumentsFromTalent(talentID);
-            if (result == null || result.Count <= 0 || !result.Any(id => id.TalentID == talentID))
-            {
-                return NotFound();
+            try {
+
+                var result = _talents.GetDocumentsFromTalent(talentID);
+                return Ok(result);
             }
-            return Ok(result);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound($"{new { message = ex.Message }}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{new { message = ex.Message }}");
+            }
         }
 
         /// <summary>
@@ -165,18 +192,28 @@ namespace MyTalentAPI.Controllers
         ///         
         /// 
         /// </remarks>
-        [HttpGet("{talentId}/documents/{documentId}")]
+        [HttpGet("{talentID}/documents/{documentID}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DocumentDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<DocumentDTO> GetDocumentFromTalent(string talentId, string documentId)
+        public ActionResult<DocumentDTO> GetDocumentFromTalent(string talentID, string documentID)
         {
-            var result = _talents.GetDocumentFromTalent(talentId, documentId);
-            if (result == null)
-            { 
-                return NotFound();
+            try
+            {
+                var result = _talents.GetDocumentFromTalent(talentID, documentID);
+                return Ok(result);
             }
-            return Ok(result);
+            catch (ArgumentException ex)
+            {
+                return NotFound($"{new { message = ex.Message }}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{new { message = ex.Message }}");
+            }
+        
+         
+            
         }
     }
 }

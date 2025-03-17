@@ -72,7 +72,7 @@ namespace MyTalentAPI.Controllers
         /// 
         /// <remarks>
         /// **sample Request**:
-        ///    api/Talent/f3ed2d1e-36d3-4792-b509-047882d88d9e
+        ///    api/Talents/f3ed2d1e-36d3-4792-b509-047882d88d9e
         /// 
         ///             {
         ///                 talentID: f3ed2d1e-36d3-4792-b509-047882d88d9e
@@ -117,7 +117,7 @@ namespace MyTalentAPI.Controllers
         /// <param name="talentID">The unique identifier of the talent (GUID format) </param>
         /// <remarks>
         /// **Sample Request**:
-        ///     api/919c1aa4-0543-4272-85bd-7ade35272c63/documents
+        ///     api/Talents/919c1aa4-0543-4272-85bd-7ade35272c63/documents
         /// 
         ///      [
         ///         {
@@ -165,7 +165,7 @@ namespace MyTalentAPI.Controllers
         /// <param name="documentID">The unique identifier of the document (GUID format) </param>
         /// <remarks>
         /// **Sample Request**:
-        ///     api/Talent/590dc0c3-4f96-48f6-b1c3-d3d1eba076bf/documents/f1366301-7483-4474-83b4-a2df79c6fde8
+        ///     api/Talents/590dc0c3-4f96-48f6-b1c3-d3d1eba076bf/documents/f1366301-7483-4474-83b4-a2df79c6fde8
         ///     
         ///         {
         ///             documentID: f1366301-7483-4474-83b4-a2df79c6fde8

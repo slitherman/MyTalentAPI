@@ -10,7 +10,8 @@ namespace MyTalentAPI.Repositories
         //Readonly ref lists are still mutable
         private readonly List<Talent> _talents; //= new List<Talent>();
         private readonly List<Document> _documents; //= new List<Document>();
-                                                    //Exposed immutable list used for consumption so the contents cant be modified
+
+        //Exposed immutable list used for consumption so the contents cant be modified
         public IReadOnlyList<Talent> Talents => _talents;
         public IReadOnlyList<Document> Documents => _documents;
 

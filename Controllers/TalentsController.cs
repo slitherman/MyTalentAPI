@@ -23,15 +23,10 @@ namespace MyTalentAPI.Controllers
         /// <summary>
         /// Retrieves all available talents.
         /// </summary>
-        /// <returns>
-        /// An immutable list of <see cref="IReadOnlyList{TalentDTO}"/> if talents exist;
-        /// otherwise, returns a 204 No Content status.
-        /// </returns>
         /// <remarks>
-        /// Sample output:
+        /// **Sample Request**:
         ///     api/Talents
         ///     
-        /// 
         ///         {
         ///             talentID: f3ed2d1e-36d3-4792-b509-047882d88d9e
         ///             name: Drinking water
@@ -43,9 +38,10 @@ namespace MyTalentAPI.Controllers
         ///             github: https://github.com/slitherman,
         ///             linkedin: https://www.linkedin.com/in/faisal-abdi-2a44891b6/
         ///         }
-        ///         
-        /// 
         /// </remarks>
+        /// <response code="200"> Displaying available talents. </response>
+        /// <response code="204"> No talents are currently available. </response>
+        /// <response code="500"> The API could not handle the request or ran into internal issues. </response>
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IReadOnlyList<TalentDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -63,42 +59,34 @@ namespace MyTalentAPI.Controllers
             catch(Exception ex)
             {
                 return StatusCode(500, $"An unknown error {new { message = ex.Message}} has occurred");
-            }
-       
-    
-            {
-                return NoContent();
-            }
-   
+            }   
         }
 
 
         /// <summary>
         /// Retrieves talent with a given TalentID.
         /// </summary>
-        /// <returns>
-        /// A TalentDTO object <see cref="TalentDTO"/> if talents exist;
-        /// otherwise, returns a 404 Not Found Status.
-        /// </returns>
-        /// <remarks>
-        /// Sample output:
-        ///     api/Talent/{talentID}"
-        ///     
-        ///
-        ///         {
-        ///             talentID: f3ed2d1e-36d3-4792-b509-047882d88d9e
-        ///             name: Drinking water
-        ///             description: Is able to drink an absurd amount of water
-        ///             profileText: Im so thirsty,
-        ///             email: faisalerdum@gmail.com,
-        ///             formattedPhoneNumber": +4531500309,
-        ///             country: Denmark,
-        ///             github: https://github.com/slitherman,
-        ///             linkedin: https://www.linkedin.com/in/faisal-abdi-2a44891b6/
-        ///         }
-        ///         
+        /// <param name="talentID">The unique identifier of the talent (GUID format) </param>
         /// 
+        /// <remarks>
+        /// **sample Request**:
+        ///    api/Talent/f3ed2d1e-36d3-4792-b509-047882d88d9e
+        /// 
+        ///             {
+        ///                 talentID: f3ed2d1e-36d3-4792-b509-047882d88d9e
+        ///                 name: Drinking water
+        ///                 description: Is able to drink an absurd amount of water
+        ///                 profileText: Im so thirsty,
+        ///                 email: faisalerdum@gmail.com,
+        ///                 formattedPhoneNumber": +4531500309,
+        ///                 country: Denmark,
+        ///                 github: https://github.com/slitherman,
+        ///                 linkedin: https://www.linkedin.com/in/faisal-abdi-2a44891b6/
+        ///             }
         /// </remarks>
+        /// <response code="200"> Talent found. </response>
+        /// <response code="404"> No talent found for the given TalentID. </response>
+        /// <response code="500"> The API could not handle the request or ran into internal issues. </response>
         [HttpGet("Talent/{talentID}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TalentDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -124,15 +112,11 @@ namespace MyTalentAPI.Controllers
         /// <summary>
         /// Retrieves a list of documents for a given TalentID.
         /// </summary>
-        /// <returns>
-        /// An immutable list of DocumentDTO's <see cref="IReadOnlyList{T}"/> if talentID exist;
-        /// otherwise, returns a 404 Not Found Status.
-        /// </returns>
+        /// <param name="talentID">The unique identifier of the talent (GUID format) </param>
         /// <remarks>
-        /// Sample output:
-        ///     api/{talentID}/documents"
-        ///     
-        ///
+        /// **Sample Request**:
+        ///     api/919c1aa4-0543-4272-85bd-7ade35272c63/documents
+        /// 
         ///      [
         ///         {
         ///             documentID: 255aceac-cc97-49cd-89cd-5a34e051a052,
@@ -147,9 +131,10 @@ namespace MyTalentAPI.Controllers
         ///             content": Compilation of world records for most water consumed in a day
         ///         }
         ///      ]
-        ///         
-        /// 
         /// </remarks>
+        /// <response code="200"> Displaying all available documents </response>
+        /// <response code="404"> No documents could be found </response>
+        /// <response code="500"> The API could not handle the request or ran into internal issues. </response>
         [HttpGet("{talentID}/documents")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IReadOnlyList<DocumentDTO>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -174,24 +159,22 @@ namespace MyTalentAPI.Controllers
         /// <summary>
         /// Retrieves document with a given TalentID and DocumentID.
         /// </summary>
-        /// <returns>
-        /// A DocumentDTO object <see cref="DocumentDTO"/> if TalentID and DocumentID exist;
-        /// otherwise, returns a 404 Not Found Status.
-        /// </returns>
+        /// <param name="talentID">The unique identifier of the talent (GUID format) </param>
+        /// <param name="documentID">The unique identifier of the document (GUID format) </param>
         /// <remarks>
-        /// Sample output:
-        ///     api/Talent/{talentId}/documents/{documentId}"
+        /// **Sample Request**:
+        ///     api/Talent/590dc0c3-4f96-48f6-b1c3-d3d1eba076bf/documents/f1366301-7483-4474-83b4-a2df79c6fde8
         ///     
-        ///
         ///         {
         ///             documentID: f1366301-7483-4474-83b4-a2df79c6fde8
         ///             talentID: 590dc0c3-4f96-48f6-b1c3-d3d1eba076bf
         ///             name: Hydration Report
         ///             content: Analysis of daily water intake patterns and effects on health.
         ///         }
-        ///         
-        /// 
         /// </remarks>
+        /// /// <response code="200"> Displaying document. </response>
+        /// <response code="404"> Document could not be found. </response>
+        /// <response code="500"> The API could not handle the request or ran into internal issues. </response>
         [HttpGet("{talentID}/documents/{documentID}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DocumentDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

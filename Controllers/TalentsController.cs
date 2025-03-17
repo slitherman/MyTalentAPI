@@ -8,6 +8,7 @@ using System.Xml;
 
 namespace MyTalentAPI.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class TalentsController : ControllerBase
@@ -43,6 +44,7 @@ namespace MyTalentAPI.Controllers
         /// <response code="204"> No talents are currently available. </response>
         /// <response code="500"> The API could not handle the request or ran into internal issues. </response>
         [HttpGet()]
+        [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IReadOnlyList<TalentDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -87,7 +89,7 @@ namespace MyTalentAPI.Controllers
         /// <response code="200"> Talent found. </response>
         /// <response code="404"> No talent found for the given TalentID. </response>
         /// <response code="500"> The API could not handle the request or ran into internal issues. </response>
-        [HttpGet("Talent/{talentID}")]
+        [HttpGet("{talentID}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TalentDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
